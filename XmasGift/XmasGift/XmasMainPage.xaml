@@ -1,6 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XmasGift.XmasMainPage">
-  <Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+             x:Class="XmasGift.XmasMainPage"
+              xmlns:local="clr-namespace:XmasGift;assembly=XmasGift">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <DataTemplate x:Key="giftAssignedTemplate">
+        <ViewCell>
+          <StackLayout>
+            <Label x:Name="NameCell" Text="{Binding Name}" />
+            <Label x:Name="DescriptionCell" Text="{Binding Gift}" />
+            <Label x:Name="PriceCell" Text="{Binding Price}" TextColor="Red"/>
+          </StackLayout>
+        </ViewCell>
+      </DataTemplate>
+      <DataTemplate x:Key="giftNotAssignedTemplate">
+        <ViewCell>
+          <StackLayout>
+            <Label x:Name="NameCell" Text="{Binding Name}" />
+            <Label x:Name="DescriptionCell" Text="{Binding Gift}" />
+            <Label x:Name="PriceCell" Text="{Binding Price}" />
+          </StackLayout>
+        </ViewCell>
+      </DataTemplate>
+
+      <local:GiftRowDataTemplateSelector x:Key="giftRowDataTemplateSelector"
+                                     GiftAssignedTemplate="giftAssignedTemplate"
+                                     GiftNotAssignedTemplate="giftNotAssignedTemplate" />
+
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <StackLayout>
+    <Picker Title="Anno" x:Name="YearPicker" VerticalOptions="CenterAndExpand" />
+    <ListView x:Name="GiftsView" ItemTemplate="{ StaticResource giftRowDataTemplateSelector }" />
+  </StackLayout>
 </ContentPage>
